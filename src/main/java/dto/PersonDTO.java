@@ -1,22 +1,20 @@
-package model.entities;
+package dto;
 
-import enums.Gander;
-
-public class Person {
+public class PersonDTO {
     protected String cpf;
     protected String name;
     protected String surname;
-    protected Integer age;
-    protected Gander gander;
+    protected String age;
+    private String gander;
     protected String email;
     protected String phone;
 
-    public String getCpf() {
-        return cpf;
+    public String getGander() {
+        return gander;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setGander(String gander) {
+        this.gander = gander;
     }
 
     public String getName() {
@@ -27,6 +25,14 @@ public class Person {
         this.name = name;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public String getSurname() {
         return surname;
     }
@@ -35,20 +41,12 @@ public class Person {
         this.surname = surname;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
-    }
-
-    public Gander getGander() {
-        return gander;
-    }
-
-    public void setGander(Gander gander) {
-        this.gander = gander;
     }
 
     public String getEmail() {

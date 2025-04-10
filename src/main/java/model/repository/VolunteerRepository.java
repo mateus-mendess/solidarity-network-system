@@ -14,7 +14,7 @@ public class VolunteerRepository {
         this.connection = new ConnectionFactory().getConnection();
     }
 
-    public void insertVolunteer(Volunteer volunteer) {
+    public void  insertVolunteer(Volunteer volunteer) {
         String sql = """
                 INSERT INTO volunteer(cpf, name, age, email, phone, gander, work, address)
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?);
@@ -27,8 +27,7 @@ public class VolunteerRepository {
             stmt.setString(4, volunteer.getEmail());
             stmt.setString(5, volunteer.getPhone());
             stmt.setString(6, String.valueOf(volunteer.getGander()));
-            stmt.setString(7, volunteer.getWork());
-            stmt.setString(8, volunteer.getAddress().getCep());
+            stmt.setString(7, volunteer.getAddress().getCep());
 
             stmt.execute();
 

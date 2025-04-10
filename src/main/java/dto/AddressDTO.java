@@ -1,21 +1,11 @@
-package model.entities;
+package dto;
 
-public class Address {
-    private Long id;
+public class AddressDTO {
     private String cep;
     private String street;
     private String neighborhood;
     private String city;
     private String state;
-    private Person person;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getStreet() {
         return street;
@@ -55,13 +45,5 @@ public class Address {
 
     public void setCep(String cep) {
         this.cep = cep;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 }
