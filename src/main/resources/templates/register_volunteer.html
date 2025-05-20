@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Voluntário</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Cadastro de Voluntário</h1>
+<form th:action="@{/volunteer/register}" th:object="${volunteerDTO}" method="post" enctype="multipart/form-data">
+
+    <!-- DADOS PESSOAIS -->
+    <fieldset>
+        <legend>Dados Pessoais</legend>
+        <label>Nome: <input type="text" th:field="*{name}" required></label><br>
+        <label>Sobrenome: <input type="text" th:field="*{lastName}" required></label><br>
+        <label>CPF: <input type="text" th:field="*{cpf}" required></label><br>
+        <label>Data de Nascimento: <input type="date" th:field="*{birthDate}" required></label><br>
+        <label>Gênero:
+            <select th:field="*{gender}" required>
+                <option value="MALE">Masculino</option>
+                <option value="FEMALE">Feminino</option>
+                <option value="OTHER">Outro</option>
+            </select>
+        </label><br>
+        <label>Telefone: <input type="text" th:field="*{phone}" required></label><br>
+    </fieldset>
+    <br>
+
+    <!-- DADOS DE ACESSO -->
+    <fieldset>
+        <legend>Acesso</legend>
+        <label>Email: <input type="email" th:field="*{email}" required></label><br>
+        <label>Senha: <input type="password" th:field="*{password}" required></label><br>
+        <label>Confirmar Senha: <input type="password" th:field="*{confirmPassword}" required></label><br>
+    </fieldset>
+    <br>
+
+    <!-- PERFIL -->
+    <fieldset>
+        <legend>Perfil</legend>
+        <label>Profissão: <input type="text" th:field="*{profession}"></label><br>
+        <label>Foto de Perfil: <input type="file" th:field="*{profilePicture}" accept="image/*"></label><br>
+
+        <label>Ações que deseja participar:</label><br>
+        <div th:each ="actionType : ${actionTypes}">
+            <input type="checkbox" th:field="*{idActionTypes}" th:value="${actionType.id}">
+            <span th:text="${actionType.name}"></span>
+        </div>
+    </fieldset>
+    <br>
+
+    <!-- AUTORIZAÇÃO -->
+    <fieldset>
+        <legend>Autorização</legend>
+        <label>
+            <input type="checkbox" th:field="*{permission}" value="true" required>
+            Autorizo o uso dos meus dados conforme os termos.
+        </label>
+    </fieldset>
+    <br>
+
+    <button type="submit">Cadastrar</button>
+</form>
+</body>
+</html>
