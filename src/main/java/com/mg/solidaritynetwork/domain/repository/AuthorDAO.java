@@ -1,10 +1,12 @@
 package com.mg.solidaritynetwork.domain.repository;
 
 import com.mg.solidaritynetwork.domain.entity.Author;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
 
+@Repository
 public class AuthorDAO {
     private final DataSource dataSource;
 

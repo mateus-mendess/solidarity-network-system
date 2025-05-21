@@ -1,0 +1,52 @@
+package com.mg.solidaritynetwork.domain.service;
+
+import com.mg.solidaritynetwork.domain.entity.Volunteer;
+import com.mg.solidaritynetwork.domain.repository.VolunteerDAO;
+import com.mg.solidaritynetwork.dto.request.VolunteerRequest;
+import com.mg.solidaritynetwork.exception.FormatErrorException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
+import java.util.Set;
+
+@Service
+public class VolunteerService {
+
+    private final ModelMapper modelMapper;
+    private final Validator validator;
+    private final VolunteerDAO volunteerDAO;
+
+    public VolunteerService(ModelMapper modelMapper, Validator validator, VolunteerDAO volunteerDAO) {
+        this.modelMapper = modelMapper;
+        this.validator = validator;
+        this.volunteerDAO = volunteerDAO;
+    }
+
+    public void registry(VolunteerRequest volunteerRequest) throws SQLException{
+        this.validateInformation(volunteerRequest);
+        Volunteer volunteer = this.toVolunteer(volunteerRequest);
+        this.save(volunteer);
+    }
+
+    private void validateInformation(VolunteerRequest volunteerRequest) {
+        Set<ConstraintViolation<VolunteerRequest>> validators = validator.validate(volunteerRequest);
+
+        if (! validators.isEmpty()) {
+            for (ConstraintViolation<VolunteerRequest> validator: validators) {
+                throw new FormatErrorException(validator.getPropertyPath().toString(), validator.getMessage());
+            }
+        }
+    }
+
+    private Volunteer toVolunteer(VolunteerRequest volunteerRequest) {
+        return modelMapper.map(volunteerRequest, Volunteer.class);
+    }
+
+    private void save(Volunteer volunteer) throws SQLException {
+        volunteerDAO.insertVolunteer(volunteer);
+    }
+
+}

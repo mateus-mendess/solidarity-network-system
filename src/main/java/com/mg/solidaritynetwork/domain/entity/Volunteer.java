@@ -1,14 +1,17 @@
 package com.mg.solidaritynetwork.domain.entity;
 
+import com.mg.solidaritynetwork.domain.enums.Gender;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDate;
 
-public class Volunteer {
+public class Volunteer extends Author {
     private Long id;
     private String cpf;
     private String lastName;
     private LocalDate birthDate;
-    private String gander;
-    private String profilePicture;
+    private Gender gender;
+    private MultipartFile profilePicture;
     private String profession;
     private Boolean permission;
 
@@ -44,19 +47,19 @@ public class Volunteer {
         this.birthDate = birthDate;
     }
 
-    public String getGander() {
-        return gander;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setGander(String gander) {
-        this.gander = gander;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
-    public String getProfilePicture() {
+    public MultipartFile getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(String profilePicture) {
+    public void setProfilePicture(MultipartFile profilePicture) {
         this.profilePicture = profilePicture;
     }
 

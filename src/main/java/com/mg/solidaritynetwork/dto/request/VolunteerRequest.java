@@ -1,28 +1,12 @@
 package com.mg.solidaritynetwork.dto.request;
 import jakarta.validation.constraints.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class VolunteerRequest {
-    @NotBlank(message = "Campo Obrigatório")
-    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Nome inválido")
-    private String name;
-
-    @NotBlank(message = "Campo Obrigatório")
-    @Pattern(regexp = "^\\(?(\\d{2})\\)?\\s?9?\\d{4}-?\\d{4}$", message = "Telefone inválido")
-    private String phone;
-
-    @NotBlank(message = "Campo Obrigatório")
-    @Email(regexp = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$", message = "Email inválido")
-    private String email;
-
-    @NotBlank(message = "Campo Obrigatório")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "")
-    private String password;
-
-    @NotBlank(message = "Campo Obrigatório")
-    private String confirmPassword;
+public class VolunteerRequest extends AuthorRequest {
+    private Long id;
 
     @NotBlank(message = "Campo Obrigatório")
     @Pattern(regexp = "\\d{3}.?\\d{3}.?\\d{3}-?\\d{2}", message = "CPF inválido")
@@ -32,64 +16,31 @@ public class VolunteerRequest {
     @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Sobrenome inválido")
     private String lastName;
 
-    @NotBlank(message = "Campo Obrigatório")
     @Past(message = "Data informada precisa está no passado")
     private LocalDate birthDate;
 
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "Masculino|Feminino|Não-binário|Bigênero|Transgênero|Outro", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Gênero inválido")
     private String gender;
 
-    @Pattern(regexp = "^(?!.*(\\.\\.|//|\\|:))[a-zA-Z0-9/_-]+\\.(jpg|jpeg|png)$", message = "Caminho Inválido")
-    private String profilePicture;
+    private MultipartFile profilePicture;
 
     @NotBlank(message = "Campo Obrigatório")
     @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Profissão inválida")
     private String profession;
 
-    @NotNull
+    @NotNull(message = "Campo Obrigátorio!")
     private String permission;
 
     @NotEmpty(message = "Deve ser escolhido no mínimo um tipo de ação")
     private List<Long> idActionTypes;
 
-    public String getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCpf() {
@@ -124,11 +75,11 @@ public class VolunteerRequest {
         this.gender = gender;
     }
 
-    public String getProfilePicture() {
+    public MultipartFile getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(String profilePicture) {
+    public void setProfilePicture(MultipartFile profilePicture) {
         this.profilePicture = profilePicture;
     }
 

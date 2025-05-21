@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Cadastro de Voluntário</h1>
-<form th:action="@{/volunteer/register}" th:object="${volunteerDTO}" method="post" enctype="multipart/form-data">
+<form th:action="@{/volunteer/register}" th:object="${volunteerRequest}" method="post" enctype="multipart/form-data">
 
     <!-- DADOS PESSOAIS -->
     <fieldset>
@@ -17,9 +17,12 @@
         <label>Data de Nascimento: <input type="date" th:field="*{birthDate}" required></label><br>
         <label>Gênero:
             <select th:field="*{gender}" required>
-                <option value="MALE">Masculino</option>
-                <option value="FEMALE">Feminino</option>
-                <option value="OTHER">Outro</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Não-binário">Não-binário</option>
+                <option value="Bigênero">Bigênero</option>
+                <option value="Transgênero">Transgênero</option>
+                <option value="Outro">Outro</option>
             </select>
         </label><br>
         <label>Telefone: <input type="text" th:field="*{phone}" required></label><br>
