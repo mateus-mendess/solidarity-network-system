@@ -2,6 +2,7 @@ package com.mg.solidaritynetwork.controller;
 
 import com.mg.solidaritynetwork.domain.service.ActionTypeService;
 import com.mg.solidaritynetwork.domain.service.AuthorService;
+import com.mg.solidaritynetwork.domain.service.VolunteerActionTypeService;
 import com.mg.solidaritynetwork.domain.service.VolunteerService;
 import com.mg.solidaritynetwork.dto.request.AuthorRequest;
 import com.mg.solidaritynetwork.dto.request.VolunteerRequest;
@@ -23,12 +24,13 @@ public class VolunteerController {
     private final ActionTypeService actionTypeService;
     private final AuthorService authorService;
     private final VolunteerService volunteerService;
+    private final VolunteerActionTypeService volunteerActionTypeService;
 
-    public VolunteerController(ActionTypeService actionTypeService, AuthorService authorService, VolunteerService volunteerService) {
+    public VolunteerController(ActionTypeService actionTypeService, AuthorService authorService, VolunteerService volunteerService, VolunteerActionTypeService volunteerActionTypeService) {
         this.actionTypeService = actionTypeService;
         this.authorService = authorService;
         this.volunteerService = volunteerService;
-
+        this.volunteerActionTypeService = volunteerActionTypeService;
     }
 
     @GetMapping("/registerVolunteer")
@@ -57,9 +59,14 @@ public class VolunteerController {
         System.out.println(volunteerRequest.getConfirmPassword());
         System.out.println(volunteerRequest.getProfession());
 
+        for(Long idList : volunteerRequest.getIdActionTypes()) {
+            System.out.println(idList);
+        }
+
         Long id = authorService.registry(volunteerRequest);
         volunteerRequest.setId(id);
         volunteerService.registry(volunteerRequest);
+        volunteerActionTypeService.registry(volunteerRequest);
 
         return ResponseEntity.ok().body("Voluntário registrado com sucesso!");
     }

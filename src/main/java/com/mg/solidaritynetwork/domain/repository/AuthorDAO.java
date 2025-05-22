@@ -1,6 +1,7 @@
 package com.mg.solidaritynetwork.domain.repository;
 
 import com.mg.solidaritynetwork.domain.entity.Author;
+import com.mg.solidaritynetwork.exception.DataBaseException;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -39,7 +40,7 @@ public class AuthorDAO {
             }
 
         } catch (SQLException e) {
-            throw new SQLException(e.getMessage());
+            throw new DataBaseException("Erro de conexão com o database.", e.getCause());
         }
     }
 

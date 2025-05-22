@@ -7,6 +7,7 @@ import com.mg.solidaritynetwork.dto.request.AuthorRequest;
 import com.mg.solidaritynetwork.dto.request.VolunteerRequest;
 
 import com.mg.solidaritynetwork.exception.FormatErrorException;
+import com.mg.solidaritynetwork.utils.PasswordEncoder;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
@@ -20,17 +21,20 @@ public class AuthorService {
 
     private final ModelMapper modelMapper;
     private final Validator validator;
+    private final PasswordEncoder passwordEncoder;
     private final AuthorDAO authorDAO;
 
-    public AuthorService(ModelMapper modelMapper, Validator validator, AuthorDAO authorDAO) {
+    public AuthorService(ModelMapper modelMapper, Validator validator, AuthorDAO authorDAO, PasswordEncoder passwordEncoder) {
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
         this.validator = validator;
         this.authorDAO = authorDAO;
     }
 
     public Long registry(AuthorRequest authorRequest) throws SQLException {
         this.validateInformation(authorRequest);
-        Author author = this.toAuthor(authorRequest);
+        AuthorRequest secureAuthorRequest = this.securePassword(authorRequest);
+        Author author = this.toAuthor(secureAuthorRequest);
         return this.save(author);
     }
 
@@ -42,6 +46,14 @@ public class AuthorService {
                 throw new FormatErrorException(violation.getPropertyPath().toString(), violation.getMessage());
             }
          }
+    }
+
+    private AuthorRequest securePassword(AuthorRequest authorRequest) {
+        String hashedPassword = passwordEncoder.encoder(authorRequest.getPassword());
+        System.out.println(hashedPassword);
+        authorRequest.setPassword(hashedPassword);
+
+        return authorRequest;
     }
 
     private Author toAuthor(AuthorRequest authorRequest) {

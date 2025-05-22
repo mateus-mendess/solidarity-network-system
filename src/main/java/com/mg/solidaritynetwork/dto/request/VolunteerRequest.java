@@ -1,4 +1,5 @@
 package com.mg.solidaritynetwork.dto.request;
+import com.mg.solidaritynetwork.validation.VolunteerValidation;
 import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -6,33 +7,34 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class VolunteerRequest extends AuthorRequest {
+    @NotNull(message = "id voluntário não pode ser nulo.", groups = VolunteerValidation.class)
     private Long id;
 
-    @NotBlank(message = "Campo Obrigatório")
-    @Pattern(regexp = "\\d{3}.?\\d{3}.?\\d{3}-?\\d{2}", message = "CPF inválido")
+    @NotBlank(message = "Campo Obrigatório", groups = VolunteerValidation.class)
+    @Pattern(regexp = "\\d{3}.?\\d{3}.?\\d{3}-?\\d{2}", message = "CPF inválido", groups = VolunteerValidation.class)
     private String cpf;
 
-    @NotBlank(message = "Campo Obrigatório")
-    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Sobrenome inválido")
+    @NotBlank(message = "Campo Obrigatório", groups = VolunteerValidation.class)
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Sobrenome inválido", groups = VolunteerValidation.class)
     private String lastName;
 
-    @Past(message = "Data informada precisa está no passado")
+    @Past(message = "Data informada precisa está no passado", groups = VolunteerValidation.class)
     private LocalDate birthDate;
 
     @NotBlank
-    @Pattern(regexp = "Masculino|Feminino|Não-binário|Bigênero|Transgênero|Outro", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Gênero inválido")
+    @Pattern(regexp = "Masculino|Feminino|Não-binário|Bigênero|Transgênero|Outro", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Gênero inválido", groups = VolunteerValidation.class)
     private String gender;
 
     private MultipartFile profilePicture;
 
-    @NotBlank(message = "Campo Obrigatório")
-    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Profissão inválida")
+    @NotBlank(message = "Campo Obrigatório", groups = VolunteerValidation.class)
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Profissão inválida", groups = VolunteerValidation.class)
     private String profession;
 
-    @NotNull(message = "Campo Obrigátorio!")
+    @NotNull(message = "Campo Obrigátorio!", groups = VolunteerValidation.class)
     private String permission;
 
-    @NotEmpty(message = "Deve ser escolhido no mínimo um tipo de ação")
+    @NotEmpty(message = "Deve ser escolhido no mínimo um tipo de ação", groups = VolunteerValidation.class)
     private List<Long> idActionTypes;
 
     public Long getId() {
