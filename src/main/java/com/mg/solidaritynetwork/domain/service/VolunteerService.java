@@ -3,7 +3,8 @@ package com.mg.solidaritynetwork.domain.service;
 import com.mg.solidaritynetwork.domain.entity.Volunteer;
 import com.mg.solidaritynetwork.domain.repository.VolunteerDAO;
 import com.mg.solidaritynetwork.dto.request.VolunteerRequest;
-import com.mg.solidaritynetwork.exception.FormatErrorException;
+import com.mg.solidaritynetwork.exception.CpfAlreadyExistsException;
+import com.mg.solidaritynetwork.exception.InvalidFormatException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,7 @@ public class VolunteerService {
 
     public void registry(VolunteerRequest volunteerRequest) throws SQLException{
         this.validateInformation(volunteerRequest);
+        this.validateUniqueFields(volunteerRequest);
         Volunteer volunteer = this.toVolunteer(volunteerRequest);
         this.save(volunteer);
     }
@@ -36,8 +38,14 @@ public class VolunteerService {
 
         if (! validators.isEmpty()) {
             for (ConstraintViolation<VolunteerRequest> validator: validators) {
-                throw new FormatErrorException(validator.getPropertyPath().toString(), validator.getMessage());
+                throw new InvalidFormatException(validator.getPropertyPath().toString(), validator.getMessage());
             }
+        }
+    }
+
+    private void validateUniqueFields(VolunteerRequest volunteerRequest) throws SQLException {
+        if (volunteerDAO.existsByCpf(volunteerRequest.getCpf())) {
+            throw new CpfAlreadyExistsException("CPF já cadastrado", "cpf");
         }
     }
 

@@ -1,13 +1,12 @@
 package com.mg.solidaritynetwork.domain.repository;
 
 import com.mg.solidaritynetwork.domain.entity.Volunteer;
+import com.mg.solidaritynetwork.exception.DataBaseException;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository
 public class VolunteerDAO {
@@ -23,8 +22,9 @@ public class VolunteerDAO {
                     (?, ?, ?, ?, ?::gendertype, ?, ?, ?);
                     """;
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, volunteer.getId());
             statement.setString(2, volunteer.getCpf());
@@ -38,6 +38,26 @@ public class VolunteerDAO {
             statement.execute();
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
+        }
+    }
+
+    public Boolean existsByCpf(String cpf) {
+        String sql = """
+                SELECT cpf FROM volunteer
+                WHERE cpf = ?;
+                """;
+
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, cpf);
+
+            try(ResultSet set = statement.executeQuery()) {
+                return set.next();
+            }
+
+        } catch (SQLException e) {
+            throw new DataBaseException("Erro de verificação do cpf no database", e.getCause());
         }
     }
 }

@@ -14,7 +14,7 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.addConverter(new StringToGender());
+        modelMapper.addConverter(new StringToGenderConfig());
 
         TypeMap<VolunteerRequest, VolunteerActionType> typeMap = modelMapper.createTypeMap(VolunteerRequest.class, VolunteerActionType.class)
                 .addMappings(mapper -> {mapper.map(VolunteerRequest::getId, VolunteerActionType::setIdVolunteer);

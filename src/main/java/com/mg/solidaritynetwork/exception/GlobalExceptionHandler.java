@@ -16,9 +16,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(errorDTO);
     }
 
-    @ExceptionHandler(FormatErrorException.class)
-    private ResponseEntity<GlobalErrorResponse> handleFormatErrorException(FormatErrorException exception) {
+    @ExceptionHandler(InvalidFormatException.class)
+    private ResponseEntity<GlobalErrorResponse> handleInvalidFormatException(InvalidFormatException exception) {
         GlobalErrorResponse errorDTO = new GlobalErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getField(), exception.getMessage());
         return ResponseEntity.badRequest().body(errorDTO);
     }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    private ResponseEntity<GlobalErrorResponse> handleEmailAlreadyExistException(EmailAlreadyExistsException exception) {
+        GlobalErrorResponse errorResponse = new GlobalErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getField(), exception.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(CpfAlreadyExistsException.class)
+    private ResponseEntity<GlobalErrorResponse> handleCpfAlreadyExistsException(CpfAlreadyExistsException exception) {
+        GlobalErrorResponse globalErrorResponse = new GlobalErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getField(), exception.getMessage());
+        return ResponseEntity.badRequest().body(globalErrorResponse);
+    }
+
 }

@@ -1,5 +1,5 @@
 package com.mg.solidaritynetwork.dto.request;
-import com.mg.solidaritynetwork.validation.VolunteerValidation;
+import com.mg.solidaritynetwork.validation.group.VolunteerValidation;
 import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 

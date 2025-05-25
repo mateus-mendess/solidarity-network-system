@@ -1,9 +1,9 @@
 package com.mg.solidaritynetwork.exception;
 
-public class FormatErrorException extends RuntimeException {
+public class InvalidFormatException extends RuntimeException {
    private String field;
 
-    public FormatErrorException(String field, String message) {
+    public InvalidFormatException(String field, String message) {
         super(message);
         this.field = field;
     }

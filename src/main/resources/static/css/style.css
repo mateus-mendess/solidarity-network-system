@@ -1,4 +1,4 @@
-*{
+ *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -92,8 +92,8 @@ main {
   gap: 1rem;
 }
 
-button.voluntario,
-button.ong {
+.voluntario,
+.ong {
   padding: 0.8rem 1.2rem;
   border: none;
   border-radius: 10px;
@@ -102,19 +102,22 @@ button.ong {
   cursor: pointer;
   box-shadow: 2px 4px 0px #000000;
   transition: transform 0.1s ease-in-out;
+  text-decoration: none;
 }
 
-button.voluntario {
+.voluntario {
   background-color: #4d9efc;
   color: white;
+  text-decoration: none;
 }
 
-button.ong {
+.ong {
   background-color: #e9f0ff;
   color: #4d9efc;
+  text-decoration: none;
 }
 
-button:hover {
+.buttons:hover {
   transform: translateY(-2px);
 }
 
@@ -207,3 +210,4 @@ footer {
     align-items: flex-start;
   }
 }
+

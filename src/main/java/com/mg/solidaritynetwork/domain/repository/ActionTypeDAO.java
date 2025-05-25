@@ -2,6 +2,7 @@ package com.mg.solidaritynetwork.domain.repository;
 
 import com.mg.solidaritynetwork.domain.entity.ActionType;
 import com.mg.solidaritynetwork.exception.DataBaseException;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -27,8 +28,9 @@ public class ActionTypeDAO {
                 SELECT * FROM actionType;
                 """;
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+
+        try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet set = statement.executeQuery()) {
 
             List<ActionType> actionTypes = new ArrayList<>();

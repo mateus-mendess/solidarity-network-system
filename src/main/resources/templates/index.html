@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solidary Network</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Solidary Network</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
 <body>
@@ -14,10 +14,10 @@
             <img th:src="@{/img/logo_solidary.png}" alt="Logo Solidary Network" />
         </div>
         <nav>
-            <a href="#">VOLUNTÁRIOS</a>
-            <a href="#">ONG</a>
-            <a href="#">BLOG</a>
-            <a href="#">ENTRAR</a>
+            <a href="https://VOLUNTÁRIOS.com" class="botao">VOLUNTÁRIOS</a>
+            <a href="https://ONG.com" class="botao">ONG</a>
+            <a href="https://BLOG.com" class="botao">BLOG</a>
+            <a href="https://ENTRAR.com" class="botao">ENTRAR</a>
             <div class="search-box">
                 <input type="text" placeholder="buscar por ONGs" />
                 <button>🔍</button>
@@ -31,8 +31,9 @@
                 <h1>SOLIDARY NETWORK</h1>
                 <p>O Solidary Network é uma plataforma que une voluntários e ONGs em uma rede de apoio e transformação. Aqui, você pode encontrar causas próximas de você, compartilhar histórias inspiradoras e fazer a diferença de forma prática e segura.</p>
                 <div class="buttons">
-                    <button class="voluntario">Quero ser voluntário</button>
-                    <button class="ong">Cadastrar minha ONG</button>
+                    <a th:href="@{/registerVolunteer}" class="voluntario">Quero ser voluntário</a>
+                    <a href="cadastro-ong" class="ong">Cadastrar minha ONG</a>
+
                 </div>
             </div>
             <div class="image-content">
@@ -41,23 +42,5 @@
         </section>
     </main>
 </div>
-
-<footer>
-    <div class="footer-container">
-        <div class="footer-left">
-            <h3>Solidary Network</h3>
-            <p>Conectando voluntários e ONGs para transformar o mundo.</p>
-        </div>
-        <div class="footer-right">
-            <a href="#">Sobre nós</a>
-            <a href="#">Contato</a>
-            <a href="#">Termos de uso</a>
-            <a href="#">Privacidade</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2025 Solidary Network. Todos os direitos reservados.</p>
-    </div>
-</footer>
 </body>
 </html>

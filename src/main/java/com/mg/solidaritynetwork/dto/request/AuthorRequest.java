@@ -1,10 +1,14 @@
 package com.mg.solidaritynetwork.dto.request;
 
-import com.mg.solidaritynetwork.validation.AuthorValidation;
+import com.mg.solidaritynetwork.validation.constraints.PasswordMatches;
+import com.mg.solidaritynetwork.validation.group.AuthorValidation;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+
+@PasswordMatches(message = "Confirmação de senha precisa está igual a senha digitada anteriormente.", groups = AuthorValidation.class)
 public class AuthorRequest {
     @NotBlank(message = "Campo Obrigatório", groups = AuthorValidation.class)
     @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Nome inválido", groups = AuthorValidation.class)

@@ -1,6 +1,6 @@
 package com.mg.solidaritynetwork.domain.enums;
 
-import com.mg.solidaritynetwork.exception.FormatErrorException;
+import com.mg.solidaritynetwork.exception.InvalidFormatException;
 
 public enum Gender {
     MALE("Masculino"),
@@ -22,7 +22,7 @@ public enum Gender {
                 return gender;
             }
         }
-        throw new FormatErrorException("Gênero", "Gênero inválido!");
+        throw new InvalidFormatException("Gênero", "Gênero inválido!");
     }
 
     public String getLabel() {

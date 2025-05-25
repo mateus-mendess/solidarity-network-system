@@ -1,9 +1,6 @@
 package com.mg.solidaritynetwork.controller;
 
-import com.mg.solidaritynetwork.domain.service.ActionTypeService;
-import com.mg.solidaritynetwork.domain.service.AuthorService;
-import com.mg.solidaritynetwork.domain.service.VolunteerActionTypeService;
-import com.mg.solidaritynetwork.domain.service.VolunteerService;
+import com.mg.solidaritynetwork.domain.service.*;
 import com.mg.solidaritynetwork.dto.request.AuthorRequest;
 import com.mg.solidaritynetwork.dto.request.VolunteerRequest;
 import com.mg.solidaritynetwork.dto.response.ActionTypeDTO;
@@ -22,15 +19,11 @@ import java.util.List;
 public class VolunteerController {
 
     private final ActionTypeService actionTypeService;
-    private final AuthorService authorService;
-    private final VolunteerService volunteerService;
-    private final VolunteerActionTypeService volunteerActionTypeService;
+    private final VolunteerRegistrationService volunteerRegistrationService;
 
-    public VolunteerController(ActionTypeService actionTypeService, AuthorService authorService, VolunteerService volunteerService, VolunteerActionTypeService volunteerActionTypeService) {
+    public VolunteerController(ActionTypeService actionTypeService, VolunteerRegistrationService volunteerRegistrationService) {
         this.actionTypeService = actionTypeService;
-        this.authorService = authorService;
-        this.volunteerService = volunteerService;
-        this.volunteerActionTypeService = volunteerActionTypeService;
+        this.volunteerRegistrationService = volunteerRegistrationService;
     }
 
     @GetMapping("/registerVolunteer")
@@ -63,10 +56,7 @@ public class VolunteerController {
             System.out.println(idList);
         }
 
-        Long id = authorService.registry(volunteerRequest);
-        volunteerRequest.setId(id);
-        volunteerService.registry(volunteerRequest);
-        volunteerActionTypeService.registry(volunteerRequest);
+        volunteerRegistrationService.registerVolunteer(volunteerRequest);
 
         return ResponseEntity.ok().body("Voluntário registrado com sucesso!");
     }
