@@ -34,16 +34,16 @@ public class VolunteerService {
     }
 
     private void validateInformation(VolunteerRequest volunteerRequest) {
-        Set<ConstraintViolation<VolunteerRequest>> validators = validator.validate(volunteerRequest);
+        Set<ConstraintViolation<VolunteerRequest>> violations = validator.validate(volunteerRequest);
 
-        if (! validators.isEmpty()) {
-            for (ConstraintViolation<VolunteerRequest> validator: validators) {
-                throw new InvalidFormatException(validator.getPropertyPath().toString(), validator.getMessage());
+        if (! violations.isEmpty()) {
+            for (ConstraintViolation<VolunteerRequest> violation: violations) {
+                throw new InvalidFormatException(violation.getPropertyPath().toString(), violation.getMessage());
             }
         }
     }
 
-    private void validateUniqueFields(VolunteerRequest volunteerRequest) throws SQLException {
+    private void validateUniqueFields(VolunteerRequest volunteerRequest) {
         if (volunteerDAO.existsByCpf(volunteerRequest.getCpf())) {
             throw new CpfAlreadyExistsException("CPF já cadastrado", "cpf");
         }

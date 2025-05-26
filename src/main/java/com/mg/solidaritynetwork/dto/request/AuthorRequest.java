@@ -11,11 +11,11 @@ import jakarta.validation.constraints.Pattern;
 @PasswordMatches(message = "Confirmação de senha precisa está igual a senha digitada anteriormente.", groups = AuthorValidation.class)
 public class AuthorRequest {
     @NotBlank(message = "Campo Obrigatório", groups = AuthorValidation.class)
-    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Nome inválido", groups = AuthorValidation.class)
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ]+(\\s[A-Za-zÀ-ÿ]+)*$", message = "Nome inválido. Use apenas letras e espaços.", groups = AuthorValidation.class)
     private String name;
 
     @NotBlank(message = "Campo Obrigatório", groups = AuthorValidation.class)
-    @Pattern(regexp = "^\\(?(\\d{2})\\)?\\s?9?\\d{4}-?\\d{4}$", message = "Telefone inválido", groups = AuthorValidation.class)
+    @Pattern(regexp = "^\\(?(\\d{2})\\)?\\s?9?\\d{4}-?\\d{4}$", message = "Telefone inválido. Informe um número válido com DDD.", groups = AuthorValidation.class)
     private String phone;
 
     @NotBlank(message = "Campo Obrigatório", groups = AuthorValidation.class)

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastrar ONG</title>
+</head>
+<body>
+<form action="/organizations" method="post" enctype="multipart/form-data">
+
+    <!-- Dados da Organização -->
+    <fieldset>
+        <legend>Dados da Organização</legend>
+
+        <label for="cnpj">CNPJ:</label>
+        <input type="text" id="cnpj" name="cnpj" required><br>
+
+        <label for="razaoSocial">Razão Social:</label>
+        <input type="text" id="razaoSocial" name="razaoSocial" required><br>
+
+        <label for="nomeFantasia">Nome Fantasia:</label>
+        <input type="text" id="nomeFantasia" name="nomeFantasia" required><br>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required><br>
+    </fieldset>
+
+    <!-- Acesso -->
+    <fieldset>
+        <legend>Acesso</legend>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required><br>
+
+        <label for="confirmarSenha">Confirmação de Senha:</label>
+        <input type="password" id="confirmarSenha" name="confirmarSenha" required><br>
+    </fieldset>
+
+    <!-- Endereço -->
+    <fieldset>
+        <legend>Endereço</legend>
+
+        <label for="postalCode">CEP:</label>
+        <input type="text" id="postalCode" name="postalCode" onblur="searchCep()" required><br>
+
+        <label for="street">Rua:</label>
+        <input type="text" id="street" name="street" required><br>
+
+        <label for="neighborhood">Bairro:</label>
+        <input type="text" id="neighborhood" name="neighborhood" required><br>
+
+        <label for="state">Estado:</label>
+        <input type="text" id="state" name="state" required><br>
+
+        <label for="city">Cidade:</label>
+        <input type="text" id="city" name="city" required><br>
+    </fieldset>
+
+    <!-- Perfil -->
+    <fieldset>
+        <legend>Perfil</legend>
+
+        <label for="sobre">Sobre:</label><br>
+        <textarea id="sobre" name="sobre" rows="4" cols="50" required></textarea><br>
+
+        <label for="fotoPerfil">Foto de Perfil:</label>
+        <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*"><br>
+
+        <label for="fotoCapa">Foto de Capa:</label>
+        <input type="file" id="fotoCapa" name="fotoCapa" accept="image/*"><br>
+    </fieldset>
+
+    <!-- Representante Legal -->
+    <fieldset>
+        <legend>Representante Legal</legend>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required><br>
+
+        <label for="nomeRepresentante">Nome:</label>
+        <input type="text" id="nomeRepresentante" name="nomeRepresentante" required><br>
+
+        <label for="sobrenomeRepresentante">Sobrenome:</label>
+        <input type="text" id="sobrenomeRepresentante" name="sobrenomeRepresentante" required><br>
+
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="date" id="dataNascimento" name="dataNascimento" required><br>
+
+        <label for="genero">Gênero:</label>
+        <select id="genero" name="genero" required>
+            <option value="">Selecione</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Não-binário">Não-binário</option>
+            <option value="Bigênero">Bigênero</option>
+            <option value="Transgênero">Transgênero</option>
+            <option value="Outro">Outro</option>
+        </select><br>
+
+        <label for="telefoneRepresentante">Telefone:</label>
+        <input type="tel" id="telefoneRepresentante" name="telefoneRepresentante" required><br>
+
+        <label for="emailRepresentante">Email:</label>
+        <input type="email" id="emailRepresentante" name="emailRepresentante" required><br>
+    </fieldset>
+
+    <br>
+    <button type="submit">Cadastrar</button>
+</form>
+</body>
+
+<script>
+    function searchCep() {
+      const postalCode = document.getElementById("postalCode").value;
+
+      fetch(`/search-cep?postalCode=${postalCode}`)
+        .then(response => {
+          if (!response.ok) throw new Error("Erro ao buscar CEP");
+          return response.json();
+        })
+        .then(data => {
+          document.getElementById("postalCode").value = data.cep;
+          document.getElementById("street").value = data.logradouro;
+          document.getElementById("neighborhood").value = data.bairro;
+          document.getElementById("city").value = data.localidade;
+          document.getElementById("state").value = data.estado;
+        })
+        .catch(error => {
+          alert("CEP inválido ou não encontrado.");
+          console.error(error);
+        });
+    }
+</script>
+</html>

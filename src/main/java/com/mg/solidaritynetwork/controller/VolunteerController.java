@@ -39,23 +39,6 @@ public class VolunteerController {
 
     @PostMapping("/volunteer/register")
     public ResponseEntity<String> registryVolunteer(@ModelAttribute VolunteerRequest volunteerRequest) throws SQLException{
-        System.out.println(volunteerRequest.getCpf());
-        System.out.println(volunteerRequest.getProfilePicture().getOriginalFilename());
-        System.out.println(volunteerRequest.getEmail());
-        System.out.println(volunteerRequest.getGender());
-        System.out.println(volunteerRequest.getBirthDate());
-        System.out.println(volunteerRequest.getPermission());
-        System.out.println(volunteerRequest.getPassword());
-        System.out.println(volunteerRequest.getLastName());
-        System.out.println(volunteerRequest.getName());
-        System.out.println(volunteerRequest.getPhone());
-        System.out.println(volunteerRequest.getConfirmPassword());
-        System.out.println(volunteerRequest.getProfession());
-
-        for(Long idList : volunteerRequest.getIdActionTypes()) {
-            System.out.println(idList);
-        }
-
         volunteerRegistrationService.registerVolunteer(volunteerRequest);
 
         return ResponseEntity.ok().body("Voluntário registrado com sucesso!");
