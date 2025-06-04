@@ -24,34 +24,35 @@ public class OrganizationDAO {
 
     public void insertOrganization(Organization organization) {
         String sql = """
-                INSERT INTO organization(cnpj, corporatename, about, profilepicture, coverphoto) VALUES
-                (?, ?, ?, ?, ?);
+                INSERT INTO organization(id, cnpj, corporatename, about, profilepicture, coverphoto) VALUES
+                (?, ?, ?, ?, ?, ?)
                 """;
 
         Connection connection = DataSourceUtils.getConnection(dataSource);
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, organization.getCnpj());
-            statement.setString(2, organization.getCorporateName());
-            statement.setString(3, organization.getAbout());
-            statement.setString(4, organization.getProfilePicture().getOriginalFilename());
-            statement.setString(5, organization.getCoverPhoto().getOriginalFilename());
+            statement.setLong(1, organization.getId());
+            statement.setString(2, organization.getCnpj());
+            statement.setString(3, organization.getCorporateName());
+            statement.setString(4, organization.getAbout());
+            statement.setString(5, organization.getProfilePicture().getOriginalFilename());
+            statement.setString(6, organization.getCoverPhoto().getOriginalFilename());
 
             statement.execute();
 
         } catch (SQLException e) {
-            throw new DataBaseException("Erro no cadastro da organização ao banco de dados", e.getCause());
+            throw new DataBaseException("Erro no cadastro da organização ao banco de dados", e);
         }
     }
 
     public Boolean existsByCnpj(String cnpj) {
         String sql = """
-                SELECT cpnj FROM organization
+                SELECT cnpj FROM organization
                 WHERE cnpj = ?
                 """;
 
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSourceUtils.getConnection(dataSource);
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, cnpj);

@@ -53,6 +53,13 @@ public class OrganizationService {
     }
 
     private void save(Organization organization) {
+        System.out.println(organization.getId());
+        System.out.println(organization.getCnpj());
+        System.out.println(organization.getCorporateName());
+        System.out.println(organization.getProfilePicture().getOriginalFilename());
+        System.out.println(organization.getCoverPhoto().getOriginalFilename());
+        System.out.println(organization.getAbout());
+
         organizationDAO.insertOrganization(organization);
     }
 }

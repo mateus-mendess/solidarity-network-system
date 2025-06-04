@@ -24,7 +24,7 @@ public class OrganizationController {
     @GetMapping("/register-organization")
     public ModelAndView getOrganizationRegistrationView() {
         ModelAndView modelAndView = new ModelAndView("register_organization");
-        modelAndView.addObject("organizationRequest", new NGORegistrationRequest());
+        modelAndView.addObject("organizationRegistrationRequest", new NGORegistrationRequest());
 
         return modelAndView;
     }

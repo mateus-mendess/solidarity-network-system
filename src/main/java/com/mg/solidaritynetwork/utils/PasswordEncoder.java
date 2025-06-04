@@ -3,6 +3,8 @@ package com.mg.solidaritynetwork.utils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+//bean
+
 @Component
 public class PasswordEncoder {
 

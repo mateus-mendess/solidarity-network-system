@@ -25,8 +25,10 @@ public class OrganizationRegistrationService {
     @Transactional(rollbackFor = Exception.class)
     public void registerOrganization(NGORegistrationRequest ngoRegistrationRequest) throws SQLException {
         Long id = authorService.registry(ngoRegistrationRequest.getOrganizationRequest());
+        System.out.println(id);
         ngoRegistrationRequest.getOrganizationRequest().setId(id);
         organizationService.register(ngoRegistrationRequest.getOrganizationRequest());
+        ngoRegistrationRequest.getAddressRequest().setId_ong(id);
         addressService.register(ngoRegistrationRequest.getAddressRequest());
         ngoRepresentativeService.register(ngoRegistrationRequest.getNgoRepresentativeRequest());
     }

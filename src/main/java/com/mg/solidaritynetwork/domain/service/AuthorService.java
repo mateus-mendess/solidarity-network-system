@@ -57,7 +57,6 @@ public class AuthorService {
 
     private AuthorRequest securePassword(AuthorRequest authorRequest) {
         String hashedPassword = passwordEncoder.encoder(authorRequest.getPassword());
-        System.out.println(hashedPassword);
         authorRequest.setPassword(hashedPassword);
 
         return authorRequest;

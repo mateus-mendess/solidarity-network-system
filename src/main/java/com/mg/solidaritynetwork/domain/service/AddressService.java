@@ -1,14 +1,19 @@
 package com.mg.solidaritynetwork.domain.service;
 
+import com.mg.solidaritynetwork.domain.entity.Address;
 import com.mg.solidaritynetwork.domain.repository.AddressDAO;
 import com.mg.solidaritynetwork.dto.request.AddressRequest;
 import com.mg.solidaritynetwork.dto.response.ViaCepResponse;
 import com.mg.solidaritynetwork.exception.InvalidFormatException;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class AddressService {
@@ -16,15 +21,22 @@ public class AddressService {
     private final ModelMapper modelMapper;
     private final Validator validator;
     private final AddressDAO addressDAO;
+    private final GeocodingService geocodingService;
 
-    public AddressService(ModelMapper modelMapper, Validator validator, AddressDAO addressDAO) {
+    public AddressService(ModelMapper modelMapper, Validator validator, AddressDAO addressDAO, GeocodingService geocodingService) {
         this.modelMapper = modelMapper;
         this.validator = validator;
         this.addressDAO = addressDAO;
+        this.geocodingService = geocodingService;
     }
 
-    public void register(AddressRequest addressRequest) {
-
+    public void register(AddressRequest addressRequest ) {
+        List<Double> coordinates = geocodingService.getCoordinates(addressRequest);
+        addressRequest.setLatitude(coordinates.get(1));
+        addressRequest.setLongitude(coordinates.get(2));
+        this.validateInformation(addressRequest);
+        Address address = this.toAddress(addressRequest);
+        this.save(address);
     }
 
     public ViaCepResponse fetchAddressFromViaCep(String postalCode) {
@@ -45,5 +57,21 @@ public class AddressService {
         ResponseEntity<ViaCepResponse> response = template.getForEntity(url, ViaCepResponse.class);
 
         return response.getBody();
+    }
+
+    private void validateInformation(AddressRequest addressRequest) {
+        Set<ConstraintViolation<AddressRequest>> violations = validator.validate(addressRequest);
+
+        for (ConstraintViolation<AddressRequest> violation : violations) {
+            throw new InvalidFormatException(violation.getPropertyPath().toString(), violation.getMessage());
+        }
+    }
+
+    private Address toAddress(AddressRequest addressRequest) {
+        return modelMapper.map(addressRequest, Address.class);
+    }
+
+    private void save(Address address) {
+        addressDAO.insertAddress(address);
     }
 }
