@@ -20,17 +20,15 @@ public class GeocodingService {
     public List<Double> getCoordinates(AddressRequest addressRequest) {
         RestTemplate restTemplate = new RestTemplate();
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(GEOCODING_API_URL).queryParam("address", addressRequest).queryParam("key", this.apiKey).build().encode().toUri();
+        URI uri = UriComponentsBuilder.fromHttpUrl(GEOCODING_API_URL).queryParam("address", addressRequest.getAddress()).queryParam("key", this.apiKey).build().encode().toUri();
 
         Map response = restTemplate.getForObject(uri, Map.class);
+
         Map location = (Map) ((Map) ((Map) ((List<?>) response.get("results")).get(0)).get("geometry")).get("location");
 
         Double lat = (Double) location.get("lat");
-        Double lgn = (Double) location.get("lgn");
+        Double lng = (Double) location.get("lng");
 
-        System.out.println(lat);
-        System.out.println(lgn);
-
-        return List.of(lat, lgn);
+        return List.of(lat, lng);
     }
 }

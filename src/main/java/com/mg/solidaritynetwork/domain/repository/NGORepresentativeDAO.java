@@ -2,6 +2,7 @@ package com.mg.solidaritynetwork.domain.repository;
 
 import com.mg.solidaritynetwork.domain.entity.NGORepresentative;
 import com.mg.solidaritynetwork.exception.DataBaseException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -14,34 +15,24 @@ import java.sql.SQLException;
 @Repository
 public class NGORepresentativeDAO {
 
-    //service
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
-    public NGORepresentativeDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public NGORepresentativeDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertRepresentative(NGORepresentative representative) {
+    public void insertRepresentative(NGORepresentative representative) throws SQLException {
         String sql = """
                 INSERT INTO ngorepresentative(cpf, name, lastname, birthdate, gender, phone) VALUES
                 (?, ?, ?, ?, ?::gendertype, ?);
                 """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, representative.getCpf());
-            statement.setString(2, representative.getName());
-            statement.setString(3, representative.getLastname());
-            statement.setDate(4, Date.valueOf(representative.getBirthdate()));
-            statement.setString(5, representative.getGender().getLabel());
-            statement.setString(5, representative.getPhone());
-
-            statement.execute();
-
-        } catch (SQLException e) {
-            throw new DataBaseException("Erro no cadastro de representante no banco de dados.", e.getCause());
-        }
+        jdbcTemplate.update(
+                sql, representative.getCpf(),
+                representative.getName(), representative.getLastname(),
+                Date.valueOf(representative.getBirthdate()),
+                representative.getGender().getLabel(),
+                representative.getPhone()
+        );
     }
 }

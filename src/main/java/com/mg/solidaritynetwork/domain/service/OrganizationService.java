@@ -10,6 +10,7 @@ import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 @Service
@@ -25,7 +26,7 @@ public class OrganizationService {
         this.modelMapper = modelMapper;
     }
 
-    public void register(OrganizationRequest organizationRequest) {
+    public void register(OrganizationRequest organizationRequest) throws SQLException {
         this.validateInformation(organizationRequest);
         this.validateUniqueFields(organizationRequest);
         Organization organization = this.toOrganization(organizationRequest);
@@ -52,14 +53,7 @@ public class OrganizationService {
         return modelMapper.map(organizationRequest, Organization.class);
     }
 
-    private void save(Organization organization) {
-        System.out.println(organization.getId());
-        System.out.println(organization.getCnpj());
-        System.out.println(organization.getCorporateName());
-        System.out.println(organization.getProfilePicture().getOriginalFilename());
-        System.out.println(organization.getCoverPhoto().getOriginalFilename());
-        System.out.println(organization.getAbout());
-
+    private void save(Organization organization) throws SQLException {
         organizationDAO.insertOrganization(organization);
     }
 }

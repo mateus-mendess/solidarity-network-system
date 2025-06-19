@@ -92,4 +92,22 @@ public class AddressRequest {
     public void setId_ong(Long id_ong) {
         this.id_ong = id_ong;
     }
+
+    public String getAddress() {
+        return street + ", " + neighborhood + ", " + city + ", " + state + ", " + postalCode;
+    }
+
+    @Override
+    public String toString() {
+        return "AddressRequest{" +
+                "postalCode='" + postalCode + '\'' +
+                ", neighborhood='" + neighborhood + '\'' +
+                ", street='" + street + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", id_ong=" + id_ong +
+                '}';
+    }
 }

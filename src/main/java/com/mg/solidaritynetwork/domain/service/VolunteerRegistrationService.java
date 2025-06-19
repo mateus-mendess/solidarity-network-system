@@ -20,7 +20,6 @@ public class VolunteerRegistrationService {
         this.volunteerActionTypeService = volunteerActionTypeService;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public void registerVolunteer(VolunteerRequest volunteerRequest) throws SQLException {
         Long id = authorService.registry(volunteerRequest);
         volunteerRequest.setId(id);

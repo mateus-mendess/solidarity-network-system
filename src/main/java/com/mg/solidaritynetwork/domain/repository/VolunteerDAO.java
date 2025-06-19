@@ -22,7 +22,7 @@ public class VolunteerDAO {
                     (?, ?, ?, ?, ?::gendertype, ?, ?, ?);
                     """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
+        Connection connection = dataSource.getConnection();
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
 

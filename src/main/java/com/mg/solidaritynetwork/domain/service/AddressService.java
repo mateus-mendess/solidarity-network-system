@@ -9,9 +9,11 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -30,10 +32,10 @@ public class AddressService {
         this.geocodingService = geocodingService;
     }
 
-    public void register(AddressRequest addressRequest ) {
+    public void register(AddressRequest addressRequest ) throws SQLException {
         List<Double> coordinates = geocodingService.getCoordinates(addressRequest);
-        addressRequest.setLatitude(coordinates.get(1));
-        addressRequest.setLongitude(coordinates.get(2));
+        addressRequest.setLatitude(coordinates.get(0));
+        addressRequest.setLongitude(coordinates.get(1));
         this.validateInformation(addressRequest);
         Address address = this.toAddress(addressRequest);
         this.save(address);
@@ -71,7 +73,7 @@ public class AddressService {
         return modelMapper.map(addressRequest, Address.class);
     }
 
-    private void save(Address address) {
+    private void save(Address address) throws SQLException {
         addressDAO.insertAddress(address);
     }
 }

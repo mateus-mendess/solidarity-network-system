@@ -10,6 +10,7 @@ import jakarta.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 @Service
@@ -25,7 +26,7 @@ public class NGORepresentativeService {
         this.ngoRepresentativeDAO = ngoRepresentativeDAO;
     }
 
-    public void register(NGORepresentativeRequest ngoRepresentativeRequest) {
+    public void register(NGORepresentativeRequest ngoRepresentativeRequest) throws SQLException {
         this.validateInformation(ngoRepresentativeRequest);
         NGORepresentative representative = toRepresentative(ngoRepresentativeRequest);
         this.save(representative);
@@ -45,7 +46,7 @@ public class NGORepresentativeService {
         return modelMapper.map(ngoRepresentativeRequest, NGORepresentative.class);
     }
 
-    private void save(NGORepresentative representative) {
+    private void save(NGORepresentative representative) throws SQLException {
         ngoRepresentativeDAO.insertRepresentative(representative);
     }
 

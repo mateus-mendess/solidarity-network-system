@@ -34,4 +34,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(globalErrorResponse);
     }
 
+    @ExceptionHandler(CnpjAlreadyExistsException.class)
+    private ResponseEntity<GlobalErrorResponse> handleCpfAlreadyExistsException(CnpjAlreadyExistsException exception) {
+        GlobalErrorResponse globalErrorResponse = new GlobalErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getField(), exception.getMessage());
+        return ResponseEntity.badRequest().body(globalErrorResponse);
+    }
+
 }
